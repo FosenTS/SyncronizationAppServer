@@ -57,8 +57,8 @@ func StartWatch(config configWatcher) {
 func updateSync(pathFile string, maskArg string) {
 	fileExtension := filepath.Ext(pathFile)
 	if fileExtension == maskArg {
-		fmt.Println("File is accept: " + pathFile)
-		server.SendAllClientMessage(server.Clients)
+		fmt.Println("File is edit: " + pathFile)
+		server.SendAllClientMessage(server.Clients, pathFile)
 	}
 }
 

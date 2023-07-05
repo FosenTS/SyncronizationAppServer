@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -45,9 +46,14 @@ func StartWebsocket() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func SendAllClientMessage(clients map[*Client]bool) {
+func SendAllClientMessage(clients map[*Client]bool, pathFile string) {
+	file, err := ioutil.ReadFile(pathFile)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(file)
 	for c, _ := range clients {
-		if err := c.conn.WriteMessage(websocket.TextMessage, []byte("Accept")); err != nil {
+		if err := c.conn.WriteMessage(websocket.TextMessage, []byte("FileName:"+pathFile+"FileBit:"+string(file))); err != nil {
 			log.Println(err)
 			delete(clients, c)
 			return

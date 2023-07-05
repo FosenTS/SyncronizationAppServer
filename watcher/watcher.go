@@ -1,6 +1,7 @@
 package watcher
 
 import (
+	"GolangSync/server"
 	"fmt"
 	"log"
 	"os"
@@ -57,6 +58,7 @@ func updateSync(pathFile string, maskArg string) {
 	fileExtension := filepath.Ext(pathFile)
 	if fileExtension == maskArg {
 		fmt.Println("File is accept: " + pathFile)
+		server.SendAllClientMessage(server.Clients)
 	}
 }
 
@@ -66,7 +68,7 @@ type configWatcher struct {
 }
 
 func NewConfigWatcher() *configWatcher {
-	fmt.Println("Uses directory" + os.Args[1])
+	fmt.Println("Uses directory: " + os.Args[1])
 	fmt.Println("File mask use: " + os.Args[2])
 	return &configWatcher{
 		pathDirectory: os.Args[1],

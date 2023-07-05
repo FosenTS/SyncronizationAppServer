@@ -1,8 +1,12 @@
 package main
 
-import "GolangSync/watcher"
+import (
+	"GolangSync/server"
+	"GolangSync/watcher"
+)
 
 func main() {
 	configWatcher := watcher.NewConfigWatcher()
-	watcher.StartWatch(*configWatcher)
+	go watcher.StartWatch(*configWatcher)
+	server.StartWebsocket()
 }

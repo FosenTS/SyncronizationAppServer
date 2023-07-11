@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -37,7 +36,6 @@ func StartWebsocket() {
 		}
 		Clients[client] = true
 		log.Println("Клиент подключен!")
-		fmt.Println(Clients)
 		if err := client.conn.WriteMessage(websocket.TextMessage, []byte("Directory name: "+os.Args[1])); err != nil {
 			log.Println(err)
 			return
@@ -51,12 +49,10 @@ func SendAllClientMessage(clients map[*Client]bool, pathFile string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(file)
 	for c, _ := range clients {
 		if err := c.conn.WriteMessage(websocket.TextMessage, []byte("FileName:"+pathFile+"FileBit:"+string(file))); err != nil {
 			log.Println(err)
 			delete(clients, c)
-			return
 		}
 	}
 }
